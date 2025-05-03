@@ -7,6 +7,8 @@ XLDFLAGS = ${LDFLAGS} -shared -Wl,-soname,libkms.so.1 $(shell pkg-config --libs 
 
 LIBDIR ?= /lib64
 
+XLIBDIR = /usr${LIBDIR}
+
 ALL_OBJ = \
 	linux.o \
 	dumb.o \
@@ -53,19 +55,19 @@ libkms.so.1: ${OBJ}
 	${CC} ${XCFLAGS} -o $@ ${OBJ} ${XLDFLAGS}
 
 install: libkms.so.1
-	mkdir -p ${DESTDIR}${LIBDIR}
-	cp -f libkms.so.1 ${DESTDIR}${LIBDIR}/libkms.so.1.0.0
-	ln -rsf ${DESTDIR}${LIBDIR}/libkms.so.1.0.0 ${DESTDIR}${LIBDIR}/libkms.so.1
-	ln -rsf ${DESTDIR}${LIBDIR}/libkms.so.1 ${DESTDIR}${LIBDIR}/libkms.so
-	mkdir -p ${DESTDIR}${LIBDIR}/pkgconfig
-	cp -f libkms.pc ${DESTDIR}${LIBDIR}/pkgconfig/libkms.pc
+	mkdir -p ${DESTDIR}${XLIBDIR}
+	cp -f libkms.so.1 ${DESTDIR}${XLIBDIR}/libkms.so.1.0.0
+	ln -rsf ${DESTDIR}${XLIBDIR}/libkms.so.1.0.0 ${DESTDIR}${XLIBDIR}/libkms.so.1
+	ln -rsf ${DESTDIR}${XLIBDIR}/libkms.so.1 ${DESTDIR}${XLIBDIR}/libkms.so
+	mkdir -p ${DESTDIR}${XLIBDIR}/pkgconfig
+	cp -f libkms.pc ${DESTDIR}${XLIBDIR}/pkgconfig/libkms.pc
 	mkdir -p ${DESTDIR}/usr/include/libkms
 	cp -f libkms.h ${DESTDIR}/usr/include/libkms/libkms.h
 uninstall:
-	rm -f ${DESTDIR}${LIBDIR}/libkms.so.1.0.0
-	rm -f ${DESTDIR}${LIBDIR}/libkms.so.1
-	rm -f ${DESTDIR}${LIBDIR}/libkms.so
-	rm -f ${DESTDIR}${LIBDIR}/pkgconfig/libkms.pc
+	rm -f ${DESTDIR}${XLIBDIR}/libkms.so.1.0.0
+	rm -f ${DESTDIR}${XLIBDIR}/libkms.so.1
+	rm -f ${DESTDIR}${XLIBDIR}/libkms.so
+	rm -f ${DESTDIR}${XLIBDIR}/pkgconfig/libkms.pc
 	rm -f ${DESTDIR}/usr/include/libkms
 
 clean:
